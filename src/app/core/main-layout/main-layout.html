@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>BANCO</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-button>Logout</button>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/clients" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>people</mat-icon> Clientes
+      </a>
+      <a mat-list-item routerLink="/accounts" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>account_balance</mat-icon> Cuentas
+      </a>
+      <a mat-list-item routerLink="/movements" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>compare_arrows</mat-icon> Movimientos
+      </a>
+      <a mat-list-item routerLink="/reports" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>bar_chart</mat-icon> Reportes
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet> </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

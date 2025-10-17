@@ -1,0 +1,27 @@
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+.sidenav {
+  width: 200px;
+  padding-top: 20px;
+}
+
+.sidenav-content {
+  padding: 20px;
+}
+
+.active-link {
+  background-color: rgba(0, 0, 0, 0.04);
+  font-weight: bold;
+}
+
+.mat-nav-list .mat-list-item {
+  .mat-icon {
+    margin-right: 8px;
+  }
+}
