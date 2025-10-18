@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDialog } from '../../../core/components/confirmation-dialog/confirmation-dialog';
 import { ClientDto } from '../../../core/dtos/client.dto';
@@ -19,6 +21,7 @@ import { ClientDialog } from '../client-dialog/client-dialog';
 
 @Component({
   selector: 'app-client-list',
+  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,
@@ -28,7 +31,8 @@ import { ClientDialog } from '../client-dialog/client-dialog';
     MatTableModule,
     MatIconModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule
   ],
   templateUrl: './client-list.html',
   styleUrl: './client-list.scss'
@@ -37,6 +41,8 @@ export class ClientList {
   displayedColumns: string[] = ['name', 'personId', 'gender', 'phone', 'state', 'actions'];
 
   dataSource: ClientDto[] = [];
+  private fullClientList: ClientDto[] = [];
+  searchControl = new FormControl('');
 
  constructor(
     private clientService: ClientService,
@@ -46,11 +52,30 @@ export class ClientList {
 
   ngOnInit(): void {
     this.loadClients();
+    this.searchControl.valueChanges.subscribe(searchTerm => {
+      this.applyFilter(searchTerm || '');
+    });
+  }
+
+  applyFilter(searchTerm: string): void {
+    if (!searchTerm || searchTerm.trim() === '') {
+      this.dataSource = this.fullClientList;
+      return;
+    }
+
+    const lowerCaseTerm = searchTerm.toLowerCase().trim();
+
+    this.dataSource = this.fullClientList.filter(client =>
+      client.name.toLowerCase().includes(lowerCaseTerm) ||
+      client.personId.toLowerCase().includes(lowerCaseTerm) ||
+      client.phone.includes(lowerCaseTerm)
+    );
   }
 
   loadClients(): void {
     this.clientService.getAllClients().subscribe({
       next: (clients) => {
+        this.fullClientList = clients;
         this.dataSource = clients;
       },
       error: (err) => {

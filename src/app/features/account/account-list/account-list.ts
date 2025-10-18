@@ -7,6 +7,7 @@ import { AccountDto, AccountRequest } from '../../../core/dtos/account.dto';
 import { AccountService } from '../../../core/services/account.service';
 import { AccountDialog } from '../account-dialog/account-dialog';
 
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,7 +21,8 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatMenuModule,
     MatDialogModule, MatSnackBarModule,
-    MatInputModule, MatFormFieldModule
+    MatInputModule, MatFormFieldModule,
+    ReactiveFormsModule
   ],
   templateUrl: './account-list.html',
   styleUrl: './account-list.scss'
@@ -29,23 +31,44 @@ export class AccountList implements OnInit {
   displayedColumns: string[] = ['number', 'clientName', 'type', 'initBalance', 'state', 'actions'];
   dataSource: AccountDto[] = [];
 
+  private fullAccountList: AccountDto[] = [];
+  searchControl = new FormControl('');
+
   private accountService = inject(AccountService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
 
   ngOnInit(): void {
     this.loadAccounts();
+    this.searchControl.valueChanges.subscribe(searchTerm => {
+        this.applyFilter(searchTerm || '');
+    });
   }
 
   loadAccounts(): void {
     this.accountService.getAccounts().subscribe({
       next: (data) => {
+        this.fullAccountList = data;
         this.dataSource = data;
       },
       error: (err) => {
         this.snackBar.open('Error al cargar cuentas.', 'Cerrar', { duration: 5000, panelClass: ['snackbar-error'] });
       }
     });
+  }
+
+  applyFilter(searchTerm: string): void {
+    if (!searchTerm || searchTerm.trim() === '') {
+      this.dataSource = this.fullAccountList;
+      return;
+    }
+
+    const lowerCaseTerm = searchTerm.toLowerCase().trim();
+
+    this.dataSource = this.fullAccountList.filter(account =>
+      account.number.toLowerCase().includes(lowerCaseTerm) ||
+      account.clientName?.toLowerCase().includes(lowerCaseTerm)
+    );
   }
 
   openDialog(account?: AccountDto, viewMode: boolean = false): void {
