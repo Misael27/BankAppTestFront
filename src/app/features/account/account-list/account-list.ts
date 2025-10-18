@@ -2,19 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ConfirmationDialog } from '../../../core/components/confirmation-dialog/confirmation-dialog';
-import { AccountDto, AccountRequest } from '../../../core/dtos/account.dto';
-import { AccountService } from '../../../core/services/account.service';
+import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { AccountDto, AccountRequest } from '../../../shared/dtos/account.dto';
+import { AccountService } from '../../../shared/services/account.service';
 import { AccountDialog } from '../account-dialog/account-dialog';
 
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-account-list',

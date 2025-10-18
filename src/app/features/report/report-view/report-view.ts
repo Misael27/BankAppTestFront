@@ -15,10 +15,10 @@ import { MatTableModule } from '@angular/material/table';
 
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ClientDto } from '../../../core/dtos/client.dto';
-import { MovementReportDto } from '../../../core/dtos/report.dto';
-import { ClientService } from '../../../core/services/client.service';
-import { ReportService } from '../../../core/services/report.service';
+import { ClientDto } from '../../../shared/dtos/client.dto';
+import { MovementReportDto } from '../../../shared/dtos/report.dto';
+import { ClientService } from '../../../shared/services/client.service';
+import { ReportService } from '../../../shared/services/report.service';
 
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';

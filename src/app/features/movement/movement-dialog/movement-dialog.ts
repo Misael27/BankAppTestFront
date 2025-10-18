@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { AccountDto } from '../../../core/dtos/account.dto';
-import { MovementDto, MovementRequest } from '../../../core/dtos/movement.dto';
-import { AccountService } from '../../../core/services/account.service';
+import { AccountDto } from '../../../shared/dtos/account.dto';
+import { MovementDto, MovementRequest } from '../../../shared/dtos/movement.dto';
+import { AccountService } from '../../../shared/services/account.service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';

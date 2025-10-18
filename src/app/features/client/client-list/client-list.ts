@@ -14,9 +14,9 @@ import { MatTableModule } from '@angular/material/table';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmationDialog } from '../../../core/components/confirmation-dialog/confirmation-dialog';
-import { ClientDto } from '../../../core/dtos/client.dto';
-import { ClientService } from '../../../core/services/client.service';
+import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { ClientDto } from '../../../shared/dtos/client.dto';
+import { ClientService } from '../../../shared/services/client.service';
 import { ClientDialog } from '../client-dialog/client-dialog';
 
 @Component({

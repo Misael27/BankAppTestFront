@@ -4,20 +4,20 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ClientDto } from '../../../core/dtos/client.dto';
-import { MovementReportDto } from '../../../core/dtos/report.dto';
-import { ClientService } from '../../../core/services/client.service';
-import { ReportService } from '../../../core/services/report.service';
+import { ClientDto } from '../../../shared/dtos/client.dto';
+import { MovementReportDto } from '../../../shared/dtos/report.dto';
+import { ClientService } from '../../../shared/services/client.service';
+import { ReportService } from '../../../shared/services/report.service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-report-list',

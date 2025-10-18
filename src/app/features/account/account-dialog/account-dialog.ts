@@ -9,9 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { Observable } from 'rxjs';
-import { AccountDto, AccountRequest } from '../../../core/dtos/account.dto';
-import { ClientDto } from '../../../core/dtos/client.dto';
-import { ClientService } from '../../../core/services/client.service';
+import { AccountDto, AccountRequest } from '../../../shared/dtos/account.dto';
+import { ClientDto } from '../../../shared/dtos/client.dto';
+import { ClientService } from '../../../shared/services/client.service';
 
 @Component({
   selector: 'app-account-dialog',

@@ -2,20 +2,20 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmationDialog } from '../../../core/components/confirmation-dialog/confirmation-dialog';
-import { MovementDto, MovementRequest } from '../../../core/dtos/movement.dto';
-import { MovementService } from '../../../core/services/movement.service';
+import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { MovementDto, MovementRequest } from '../../../shared/dtos/movement.dto';
+import { MovementService } from '../../../shared/services/movement.service';
 import { MovementDialog } from '../movement-dialog/movement-dialog';
 
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-movement-list',
