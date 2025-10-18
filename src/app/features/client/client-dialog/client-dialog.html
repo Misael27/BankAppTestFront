@@ -1,0 +1,57 @@
+<h1 mat-dialog-title>{{ title }}</h1>
+
+<form [formGroup]="clientForm" (ngSubmit)="onSave()">
+  <div mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="clientForm.get('name')?.hasError('required')">El nombre es requerido.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Identificación</mat-label>
+      <input matInput formControlName="personId" type="text" required>
+      <mat-error *ngIf="clientForm.get('personId')?.hasError('required')">La identificación es requerida.</mat-error>
+      <mat-error *ngIf="clientForm.get('personId')?.hasError('pattern')">Solo se permiten números.</mat-error>
+    </mat-form-field>
+
+    <div class="row-fields">
+      <mat-form-field appearance="outline">
+        <mat-label>Género</mat-label>
+        <mat-select formControlName="gender" required>
+          <mat-option *ngFor="let g of genders" [value]="g">{{ g }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="clientForm.get('gender')?.hasError('required')">El género es requerido.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" type="tel" required>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="address" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width" *ngIf="!isEditMode">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="password" type="password" required>
+      <mat-error *ngIf="clientForm.get('password')?.hasError('required')">La contraseña es requerida.</mat-error>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="state">Cliente Activo</mat-checkbox>
+
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">{{ isViewMode ? 'Cerrar' : 'Cancelar' }}</button>
+    <button *ngIf="!isViewMode"
+            mat-raised-button color="primary"
+            type="submit"
+            [disabled]="clientForm.invalid">
+      {{ isEditMode ? 'Guardar Cambios' : 'Crear Cliente' }}
+    </button>
+  </div>
+</form>

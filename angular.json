@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bank-app-frontend": {
+    "BankAppTestFront": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,10 +66,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "bank-app-frontend:build:production"
+              "buildTarget": "BankAppTestFront:build:production"
             },
             "development": {
-              "buildTarget": "bank-app-frontend:build:development"
+              "buildTarget": "BankAppTestFront:build:development"
             }
           },
           "defaultConfiguration": "development"
