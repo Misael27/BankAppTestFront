@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_URL } from '../../core/constants/api.constants';
-import { ClientDto } from './client-list/client-list';
+import { ClientDto } from '../dtos/client.dto';
 
 export type ClientCreateDto = Omit<ClientDto, 'id'> & { password: string };
 export type ClientUpdateDto = Omit<ClientDto, 'id'> & { password?: string };

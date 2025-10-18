@@ -67,6 +67,9 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div *ngIf="dataSource.length === 0" class="no-data-message">
+      No hay clientes registrados.
+    </div>
     </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="primary" (click)="onAddClient()">

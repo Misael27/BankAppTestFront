@@ -13,19 +13,9 @@ import { MatTableModule } from '@angular/material/table';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDialog } from '../../../core/components/confirmation-dialog/confirmation-dialog';
+import { ClientDto } from '../../../core/dtos/client.dto';
+import { ClientService } from '../../../core/services/client.service';
 import { ClientDialog } from '../client-dialog/client-dialog';
-import { ClientService } from '../client.service';
-
-export interface ClientDto {
-  id: number;
-  name: string;
-  gender: 'M' | 'F' | 'Otro';
-  birthdate: string
-  personId: string;
-  address: string;
-  phone: string;
-  state: boolean;
-}
 
 @Component({
   selector: 'app-client-list',

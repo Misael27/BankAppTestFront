@@ -1,0 +1,9 @@
+.mat-dialog-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.full-width-control {
+    grid-column: 1 / span 2; /* Ocupa ambas columnas */
+}

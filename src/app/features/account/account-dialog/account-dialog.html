@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<form [formGroup]="accountForm" (ngSubmit)="onSave()">
+<div mat-dialog-content class="mat-dialog-content-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Número de Cuenta</mat-label>
+      <input matInput formControlName="number">
+      <mat-error *ngIf="accountForm.get('number')?.hasError('required')">El número es requerido.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of accountTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="accountForm.get('type')?.hasError('required')">El tipo es requerido.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [class.full-width]="true">
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="clientId">
+        <mat-option *ngFor="let client of clients$ | async" [value]="client.id">
+          {{ client.name }} ({{ client.personId }})
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="accountForm.get('clientId')?.hasError('required')">El cliente es requerido.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Saldo Inicial</mat-label>
+      <input matInput type="number" formControlName="initBalance">
+      <mat-error *ngIf="accountForm.get('initBalance')?.hasError('required')">El saldo es requerido.</mat-error>
+      <mat-error *ngIf="accountForm.get('initBalance')?.hasError('min')">El saldo no puede ser negativo.</mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="state" class="mat-slide-toggle-large">
+      {{ accountForm.get('state')?.value ? 'Activo' : 'Inactivo' }}
+    </mat-slide-toggle>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">{{ isViewMode ? 'Cerrar' : 'Cancelar' }}</button>
+
+  <button *ngIf="!isViewMode"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="accountForm.invalid">
+    {{ isEditMode ? 'Guardar Cambios' : 'Crear Cuenta' }}
+  </button>
+</div>
+</form>

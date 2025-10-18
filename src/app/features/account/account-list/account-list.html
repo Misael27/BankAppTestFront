@@ -1,1 +1,74 @@
-<p>account-list works!</p>
+<div class="list-container">
+  <h2>Lista de Cuentas</h2>
+
+  <mat-form-field appearance="outline" class="search-bar">
+    <input matInput placeholder="Buscar cuenta o cliente">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="onCreate()">
+    <mat-icon>add</mat-icon> Agregar Cuenta
+  </button>
+
+  <table mat-table [dataSource]="dataSource" class="full-width-table mat-elevation-z2">
+
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef> Número </th>
+      <td mat-cell *matCellDef="let account"> {{ account.number }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientName">
+      <th mat-header-cell *matHeaderCellDef> Cliente </th>
+      <td mat-cell *matCellDef="let account"> {{ account.clientName }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let account"> {{ account.type }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="initBalance">
+      <th mat-header-cell *matHeaderCellDef> Saldo Inicial </th>
+      <td mat-cell *matCellDef="let account"> {{ account.initBalance | currency:'USD':'symbol':'1.2-2' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let account">
+        <mat-icon [color]="account.state ? 'primary' : 'warn'">
+            {{ account.state ? 'check_circle' : 'cancel' }}
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let account">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onView(account)">
+            <mat-icon>visibility</mat-icon>
+            <span>Ver Detalle</span>
+          </button>
+          <button mat-menu-item (click)="onEdit(account)">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+          </button>
+          <button mat-menu-item (click)="onDelete(account)">
+            <mat-icon color="warn">delete</mat-icon>
+            <span>Eliminar</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="dataSource.length === 0" class="no-data-message">
+    No hay cuentas registradas.
+  </div>
+</div>
