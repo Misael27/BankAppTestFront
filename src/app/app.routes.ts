@@ -6,7 +6,6 @@ export const routes: Routes = [
         path: '',
         component: MainLayout,
         children: [
-            { path: '', redirectTo: 'clients', pathMatch: 'full' },
             {
                 path: 'clients',
                 loadChildren: () => import('./features/client/client.routes').then(m => m.CLIENT_ROUTES)
