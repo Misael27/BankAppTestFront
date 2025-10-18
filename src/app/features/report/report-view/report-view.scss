@@ -1,0 +1,14 @@
+.filter-form {
+    padding: 10px 0;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.filter-grid > button {
+    height: 56px;
+}

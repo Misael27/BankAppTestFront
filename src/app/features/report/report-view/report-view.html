@@ -1,1 +1,97 @@
-<p>report-view works!</p>
+<div class="list-container">
+  <h2>Reporte de Movimientos por Fechas y Cliente</h2>
+
+  <form [formGroup]="reportForm" (ngSubmit)="generateReport()" class="filter-form">
+    <div class="filter-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha Inicial</mat-label>
+        <input matInput [matDatepicker]="pickerStart" formControlName="startDate">
+        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+        <mat-datepicker #pickerStart></mat-datepicker>
+        <mat-error *ngIf="reportForm.get('startDate')?.hasError('required')">Requerida.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha Final</mat-label>
+        <input matInput [matDatepicker]="pickerEnd" formControlName="endDate">
+        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEnd></mat-datepicker>
+        <mat-error *ngIf="reportForm.get('endDate')?.hasError('required')">Requerida.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <mat-select formControlName="clientId">
+          <mat-option *ngFor="let client of clients$ | async" [value]="client.id">
+            {{ client.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="reportForm.get('clientId')?.hasError('required')">El cliente es requerido.</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="reportForm.invalid">
+        <mat-icon>assessment</mat-icon> Generar Reporte
+      </button>
+    </div>
+  </form>
+
+  <mat-divider style="margin-top: 20px; margin-bottom: 20px;"></mat-divider>
+
+  <h3>Resultados</h3>
+
+  <table mat-table [dataSource]="dataSource" class="full-width-table mat-elevation-z2">
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let r"> {{ r.date | date: 'shortDate' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientName">
+      <th mat-header-cell *matHeaderCellDef> Cliente </th>
+      <td mat-cell *matCellDef="let r"> {{ r.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accountNumber">
+      <th mat-header-cell *matHeaderCellDef> Cuenta (Tipo) </th>
+      <td mat-cell *matCellDef="let r"> {{ r.number }} ({{ r.type }}) </td>
+    </ng-container>
+
+    <ng-container matColumnDef="initBalance">
+      <th mat-header-cell *matHeaderCellDef> Saldo Inicial </th>
+      <td mat-cell *matCellDef="let r"> {{ r.initBalance | currency:'USD':'symbol':'1.2-2' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="movement">
+      <th mat-header-cell *matHeaderCellDef> Movimiento </th>
+      <td mat-cell *matCellDef="let r">
+        <span [class]="getMovementClass(r.movement)">
+            {{ r.movement | currency:'USD':'symbol':'1.2-2' }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="finalBalance">
+      <th mat-header-cell *matHeaderCellDef> Saldo Final </th>
+      <td mat-cell *matCellDef="let r">
+        {{ r.balance | currency:'USD':'symbol':'1.2-2' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accountState">
+      <th mat-header-cell *matHeaderCellDef> Estado Cuenta </th>
+      <td mat-cell *matCellDef="let r">
+        <mat-icon [color]="r.state ? 'primary' : 'warn'">
+            {{ r.state ? 'check_circle' : 'cancel' }}
+        </mat-icon>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="dataSource.length === 0" class="no-data-message" style="margin-top: 20px;">
+    Genere un reporte para ver los movimientos.
+  </div>
+</div>
