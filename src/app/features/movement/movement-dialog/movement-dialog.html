@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<form [formGroup]="movementForm" (ngSubmit)="onSave()">
+<div mat-dialog-content class="mat-dialog-content-grid">
+
+    <ng-container *ngIf="isViewMode">
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha</mat-label>
+            <input matInput [value]="data.date | date: 'medium'" disabled>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Cuenta</mat-label>
+            <input matInput [value]="data.accountNumber" disabled>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Saldo Final</mat-label>
+            <input matInput [value]="data.balance | currency:'USD':'symbol':'1.2-2'" disabled>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Monto</mat-label>
+            <input matInput [value]="(data.type === 'Retiro' ? -data.value : data.value) | currency:'USD':'symbol':'1.2-2'" disabled>
+        </mat-form-field>
+
+        <mat-divider class="full-width-control"></mat-divider>
+    </ng-container>
+
+    <ng-container *ngIf="!isViewMode">
+        <mat-form-field appearance="outline">
+            <mat-label>Cuenta</mat-label>
+            <mat-select formControlName="accountId">
+                <mat-option *ngFor="let account of accounts$ | async" [value]="account.id">
+                    {{ account.number }} - {{ account.clientName }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="movementForm.get('accountId')?.hasError('required')">La cuenta es requerida.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="type">
+                <mat-option value="Deposito">Crédito (Depósito)</mat-option>
+                <mat-option value="Retiro">Débito (Retiro)</mat-option>
+            </mat-select>
+            <mat-error *ngIf="movementForm.get('type')?.hasError('required')">El tipo es requerido.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width-control">
+            <mat-label>Monto a transferir</mat-label>
+            <input matInput type="number" formControlName="value">
+            <mat-error *ngIf="movementForm.get('value')?.hasError('required')">El monto es requerido.</mat-error>
+            <mat-error *ngIf="movementForm.get('value')?.hasError('min')">El monto debe ser positivo.</mat-error>
+        </mat-form-field>
+    </ng-container>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">{{ isViewMode ? 'Cerrar' : 'Cancelar' }}</button>
+
+  <button *ngIf="!isViewMode"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="movementForm.invalid">
+    Registrar Movimiento
+  </button>
+</div>
+</form>
