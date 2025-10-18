@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -20,6 +20,8 @@ import { MovementReportDto } from '../../../core/dtos/report.dto';
 import { ClientService } from '../../../core/services/client.service';
 import { ReportService } from '../../../core/services/report.service';
 
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-report-view',
@@ -53,6 +55,7 @@ export class ReportView implements OnInit {
   private clientService = inject(ClientService);
   private snackBar = inject(MatSnackBar);
   private fb = inject(FormBuilder);
+  @ViewChild('reportContent', { static: false }) el!: ElementRef;
 
   ngOnInit(): void {
     this.clients$ = this.clientService.getAllClients().pipe(
@@ -102,4 +105,43 @@ export class ReportView implements OnInit {
   getMovementClass(movement: number): string {
     return movement > 0 ? 'credit' : (movement < 0 ? 'debit' : '');
   }
+
+  generatePdf(): void {
+        const data = this.el.nativeElement;
+        const ignoreElementsFunction = (element: any) => {
+          return element.hasAttribute('mat-icon') ||
+                element.classList.contains('mat-header-row') ||
+                element.classList.contains('mat-footer-row');
+        };
+        html2canvas(data, {
+          scale: 2,
+          ignoreElements: ignoreElementsFunction
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            const imgHeight = canvas.height * pdfWidth / canvas.width;
+
+            let position = 0;
+
+            if (imgHeight < pdfHeight) {
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+            } else {
+                let heightLeft = imgHeight;
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+                    if (heightLeft > -10) {
+                        pdf.addPage();
+                    }
+                }
+            }
+            pdf.save('Reporte_Movimientos_' + new Date().toISOString().substring(0, 10) + '.pdf');
+        });
+    }
+
 }
