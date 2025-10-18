@@ -14,15 +14,23 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-account-list',
   standalone: true,
   imports: [
-    CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatMenuModule,
-    MatDialogModule, MatSnackBarModule,
-    MatInputModule, MatFormFieldModule,
-    ReactiveFormsModule
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatCardModule
   ],
   templateUrl: './account-list.html',
   styleUrl: './account-list.scss'

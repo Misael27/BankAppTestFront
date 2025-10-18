@@ -14,12 +14,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-movement-list',
+  standalone: true,
   imports: [
-    CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatMenuModule,
-    MatInputModule, MatFormFieldModule, MatTooltipModule
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    MatCardModule
   ],
   providers: [DatePipe],
   templateUrl: './movement-list.html',
@@ -29,17 +40,24 @@ export class MovementList implements OnInit {
   displayedColumns: string[] = ['date', 'accountNumber', 'type', 'value', 'balance', 'actions'];
   dataSource: MovementDto[] = [];
 
+  private fullMovementList: MovementDto[] = [];
+  searchControl = new FormControl('');
+
   private movementService = inject(MovementService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
 
   ngOnInit(): void {
     this.loadMovements();
+    this.searchControl.valueChanges.subscribe(searchTerm => {
+      this.applyFilter(searchTerm || '');
+    });
   }
 
   loadMovements(): void {
     this.movementService.getMovements().subscribe({
       next: (data) => {
+        this.fullMovementList = data;
         this.dataSource = data;
       },
       error: (err) => {
@@ -47,6 +65,17 @@ export class MovementList implements OnInit {
         console.error('Error al cargar movimientos:', err);
       }
     });
+  }
+
+  applyFilter(searchTerm: string): void {
+    if (!searchTerm || searchTerm.trim() === '') {
+      this.dataSource = this.fullMovementList;
+      return;
+    }
+    const lowerCaseTerm = searchTerm.toLowerCase().trim();
+    this.dataSource = this.fullMovementList.filter(movement =>
+      movement.accountNumber?.toLowerCase().includes(lowerCaseTerm)
+    );
   }
 
   onCreate(): void {

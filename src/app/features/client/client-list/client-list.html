@@ -5,7 +5,7 @@
   <mat-card-content>
     <mat-form-field appearance="outline">
       <mat-label>Buscar</mat-label>
-      <input matInput placeholder="Buscar por nombre o identificación..." [formControl]="searchControl">
+      <input matInput [formControl]="searchControl">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
@@ -37,7 +37,6 @@
           <mat-icon [color]="element.state ? 'primary' : 'warn'">
             {{ element.state ? 'check_circle' : 'cancel' }}
           </mat-icon>
-          <span>{{ element.state ? 'Activo' : 'Inactivo' }}</span>
         </td>
       </ng-container>
 
@@ -70,7 +69,7 @@
     <div *ngIf="dataSource.length === 0" class="no-data-message">
       No hay clientes registrados.
     </div>
-    </mat-card-content>
+  </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="primary" (click)="onAddClient()">
       <mat-icon>add</mat-icon> Agregar Cliente
